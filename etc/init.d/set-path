@@ -1,0 +1,9 @@
+#! /bin/sh
+PATH=/am7x/bin:$PATH
+LD_LIBRARY_PATH=/am7x/lib:/lib:/usr/lib
+if [ -d /mnt/debug ]; then
+	PATH=/mnt/debug:$PATH
+	LD_LIBRARY_PATH=/mnt/debug:$LD_LIBRARY_PATH
+fi
+export PATH LD_LIBRARY_PATH
+

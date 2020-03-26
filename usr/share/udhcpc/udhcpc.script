@@ -1,0 +1,75 @@
+#!/bin/sh
+# udhcpc script edited by Jason Lee
+
+[ -z "$1" ] && echo "Error: should be called from udhcpc" && exit 1
+RESOLV_CONF="/etc/resolv.conf"
+DHCP_INFO="/tmp/dhcp.info."
+DHCP_OK="/tmp/dhcp.ok"
+DHCP_OK2="/tmp/dhcp."
+DNSMASQ_CONF="/etc/dnsmasq_forward.conf"
+DNSMASQ_RUN="/tmp/dnsmasq.conf"
+
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+echo "copy dnsmasq configuration"
+cp -f $DNSMASQ_CONF $DNSMASQ_RUN
+
+case "$1" in
+        deconfig)
+                #modified by yuyu
+                /sbin/ifconfig $interface 0.0.0.0
+                #ip2=$(($RANDOM%253+1))
+                #ip3=$(($RANDOM%253+1))
+                #/sbin/ifconfig $interface 169.254.$ip2.$ip3
+                #echo "ifconfig $interface 169.254.$ip2.$ip3"
+                #/sbin/route add -net 0.0.0.0 netmask 0.0.0.0 $interface
+                #echo "route add -net 0.0.0.0 netmask 0.0.0.0 $interface"
+                #end modified
+                ;;
+
+        renew|bound)
+                /sbin/ifconfig $interface $ip $BROADCAST $NETMASK
+                echo serverip $serverid > $DHCP_INFO$interface
+                echo clientip $ip >> $DHCP_INFO$interface
+                #Added by yuyu
+                #/sbin/route add -net 169.254.0.0 netmask 255.255.0.0 $interface
+                #end add
+
+                if [ -n "$router" ] ; then
+                        echo "deleting routers"
+                        while route del default gw 0.0.0.0 dev $interface ; do
+                                :
+                        done
+
+                        for i in $router ; do
+                                route add default gw $i dev $interface
+                                echo router $i >> $DHCP_INFO$interface
+                        done
+                fi
+
+                echo -n > $RESOLV_CONF
+#               [ -n "$domain" ] && echo search $domain >> $RESOLV_CONF
+                [ -n "$domain" ] && echo domain $domain >> $RESOLV_CONF
+                for i in $dns ; do
+									if [ "$i" != "0.0.0.0" ];then
+						      			echo "dns is $i"
+						            echo adding dns $i
+						            echo nameserver $i >> $RESOLV_CONF
+						            echo -e "\nserver=$i" >> $DNSMASQ_RUN
+						            echo dns $i >> $DHCP_INFO$interface
+									fi
+					      done
+				echo " Adding DNS server 8.8.8.8"
+				echo "nameserver 8.8.8.8" >> $RESOLV_CONF
+				echo " Adding DNS server 223.6.6.6"
+				echo "nameserver 223.6.6.6" >> $RESOLV_CONF
+				echo " Adding DNS server 114.114.114.114"
+				echo "nameserver 114.114.114.114" >> $RESOLV_CONF
+					      echo ok > $DHCP_OK
+					      echo ok > $DHCP_OK2$interface
+					      ;;
+esac
+
+exit 0
+

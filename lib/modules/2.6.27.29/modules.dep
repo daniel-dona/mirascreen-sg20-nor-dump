@@ -1,0 +1,78 @@
+8192cu.ko:
+spidev.ko:
+hdcp_i2c.ko: i2c-am7x.ko
+i2c_wm8988.ko: i2c-am7x.ko
+am7x_keys.ko:
+am7x_hcd.ko: am7x_uoc.ko
+zaurus.ko: cdc_ether.ko usbnet.ko mii.ko
+rtc-rs5c348.ko:
+mousedev.ko:
+tle62x0.ko:
+am7x_graph.ko:
+ads7846.ko:
+am7x_hcd_next.ko: am7x_uoc_next.ko
+am7x_uoc_next.ko:
+8821au.ko:
+am7x_psmouse.ko:
+usb-storage.ko:
+8192eu.ko:
+am7x_btvd.ko: btvd_i2c.ko i2c-am7x.ko
+cdc_ether.ko: usbnet.ko mii.ko
+rfcomm.ko: l2cap.ko bluetooth.ko
+rb_spikey.ko:
+spi_bitbang.ko:
+fuse.ko:
+hci_usb.ko: bluetooth.ko
+rtc-max6902.ko:
+am7x_uartchar.ko:
+keenhi_rfkey.ko:
+g_file_storage.ko: am7x_udc_next.ko am7x_uoc_next.ko
+edid_i2c_hw.ko: i2c-am7x.ko
+am7x_carddet.ko:
+dpp2607.ko: i2c-am7x.ko
+rtc-ds1305.ko:
+mmc_core.ko:
+am7x_udc.ko: am7x_uoc.ko
+cdc_subset.ko: usbnet.ko mii.ko
+g_subdisplay.ko: am7x_udc_next.ko am7x_uoc_next.ko
+am7x_cec.ko:
+am7x_ota_upgrade.ko:
+ipheth.ko:
+am7x_cipher.ko:
+am7xx_dac.ko:
+scsi_wait_scan.ko:
+at93_spi.ko:
+amreg.ko:
+i2s_i2c.ko: i2c-am7x.ko
+am7x_it6681.ko: i2c-am7x.ko
+am7x_uoc.ko:
+rt3070sta.ko:
+axp173.ko: i2c-am7x.ko
+rtc-m41t94.ko:
+am7x_upgrade.ko:
+usbnet.ko: mii.ko
+rndis_host.ko: cdc_ether.ko usbnet.ko mii.ko
+cifs.ko:
+g_file_debug.ko: am7x_udc_next.ko am7x_uoc_next.ko
+am7x_tp.ko:
+rtc-pt7c4337.ko: i2c-am7x.ko
+ambl.ko:
+am7x_lcm.ko: hdcp_i2c.ko edid_i2c_hw.ko i2c-am7x.ko
+bluetooth.ko:
+rtc-r9701.ko:
+amfb.ko:
+at25.ko:
+8188fu.ko:
+btvd_i2c.ko: i2c-am7x.ko
+8821cu.ko:
+am7x_udc_next.ko: am7x_uoc_next.ko
+l2cap.ko: bluetooth.ko
+at24_i2c.ko: i2c-am7x.ko
+al1601.ko: i2c-am7x.ko
+hx170dec.ko:
+mii.ko:
+am7x_spdif.ko:
+i2c-am7x.ko:
+edid_i2c_gpio.ko:
+actions_mci.ko: mmc_core.ko
+am7x_battery.ko:

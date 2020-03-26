@@ -1,0 +1,158 @@
+#
+# IMPORTANT: Do not create world writable files or directories.
+# This is a common source of Android security bugs.
+#
+on boot
+    class_start core
+    class_start main
+
+service reboot /sbin/reboot
+	class main
+	disabled
+	oneshot
+	console
+
+#service moreinfo /bin/sh /etc/network/more_debug_info.sh
+#    class main
+#    oneshot
+#    console
+
+#service nlService /usr/bin/nlService.app
+#    class main
+#    oneshot
+#    console
+
+#service actui /am7x/bin/actui.app
+#    class main
+#	 oneshot
+#    console
+
+#service networkManager /usr/bin/networkManager.app
+#	class main
+#	oneshot
+#	console
+
+service p2pservice /usr/bin/p2pservice.app
+	class main
+	disabled
+	oneshot
+	console
+
+service wifiservice /usr/bin/wifiservice.app
+	class main
+	disabled
+	oneshot
+	console
+
+#service bluetoothManager /usr/bin/bluetoothManager.app
+#	class main
+#	disabled
+#	oneshot
+#	console
+
+#service keyManager /usr/bin/keyManager.app
+#    class main
+#    oneshot
+#    console
+
+#P2P MODE   
+service p2p_supp /usr/sbin/wpa_supplicant \
+		-e/etc/network/entropy.bin  \
+		-Dnl80211 -iwlan0 -c /mnt/vram/network/p2p_supplicant.conf
+    class main
+    disabled
+    oneshot
+    console
+
+service p2p_supp_wlan2 /usr/sbin/wpa_supplicant \
+		-e/mnt/vram/network/entropy.bin  \
+		-Dnl80211 -iwlan2 -c /mnt/vram/network/p2p_supplicant.conf
+    class main
+    disabled
+    oneshot
+    console
+    
+#STA MODE
+service wpa_supp_wlan0 /sbin/wpa_supplicant \
+		-iwlan0 -Dwext -c /mnt/vram/network/wpa_supplicant.conf
+    class main
+    disabled
+    oneshot
+    console
+
+service wpa_supp_wlan1 /sbin/wpa_supplicant \
+		-iwlan1 -Dwext -c /mnt/vram/network/wpa_supplicant.conf
+    class main
+    disabled
+    oneshot
+    console
+    
+service hostapd_wlan1 /sbin/hostapd \
+		/tmp/rtl_hostapd_01.conf
+    class main
+    disabled
+    oneshot
+    console
+
+service bluetoothd_hci0 /usr/libexec/bluetooth/bluetoothd -n -C \
+		-f /mnt/vram/bluetooth/main.conf
+	class main
+	disabled
+	oneshot
+	console
+
+service pulseaudio /usr/bin/pulseaudio -n \
+		--log-level=1	\
+		--dl-search-path=/usr/lib/pulse-11.1/modules	\
+		--file=/etc/pulse/default.pa \
+		--use-pid-file=false
+		setenv PULSE_RUNTIME_PATH /mnt/vram/bluetooth/.config/pulse
+		setenv PULSE_STATE_PATH /mnt/vram/bluetooth/.config/pulse
+		setenv PULSE_CONFIG_PATH /mnt/vram/bluetooth/.config/pulse
+		setenv XDG_CONFIG_HOME /mnt/vram/bluetooth/.config
+		class main
+		disabled
+		oneshot
+		console
+
+service thttpd /usr/sbin/thttpd -D -C /etc/thttpd.conf
+    class main
+    disabled
+#    oneshot
+    console
+
+ service ota /usr/bin/ota.app
+    class main
+    disabled
+    oneshot
+    console   
+
+#service watchdog /usr/bin/watchdog.app
+#    class main
+#    oneshot
+#    console
+
+service iperf_server /bin/sh /etc/network/start_iperf_server.sh
+	class main
+	disabled
+	oneshot
+	console
+		
+service iperf_client /bin/sh /etc/network/start_iperf_client.sh
+	class main
+	disabled
+	oneshot
+	console
+
+#eth_usb
+service ipheth_start /bin/sh /usr/share/androidscreen/eth_usb.sh iphone in
+	class main
+	disabled
+	oneshot
+	console
+#use udisk to execute ota flow
+service udisk_ota /usr/bin/ota.app -af /media/usb0/install_ota.gz
+    class main
+    disabled
+    oneshot
+    console
